@@ -112,11 +112,11 @@ class Mplex {
       throw new Error(`${type} stream ${id} already exists!`)
     }
     log('new %s stream %s %s', type, id, name)
-    const send = msg => {
+    const send = async msg => {
       if (log.enabled) {
         log('%s stream %s %s send', type, id, name, { ...msg, type: MessageTypeNames[msg.type], data: msg.data && msg.data.slice() })
       }
-      return this.source.push(msg)
+      return await this.source.push(msg)
     }
     const onEnd = () => {
       log('%s stream %s %s ended', type, id, name)

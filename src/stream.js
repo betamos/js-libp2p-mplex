@@ -76,11 +76,11 @@ module.exports = ({ id, name, send, onEnd = () => { }, type = 'initiator', maxMs
         for await (let data of source) {
           while (data.length) {
             if (data.length <= maxMsgSize) {
-              send({ id, type: Types.MESSAGE, data })
+              await send({ id, type: Types.MESSAGE, data })
               break
             }
             data = BufferList.isBufferList(data) ? data : new BufferList(data)
-            send({ id, type: Types.MESSAGE, data: data.shallowSlice(0, maxMsgSize) })
+            await send({ id, type: Types.MESSAGE, data: data.shallowSlice(0, maxMsgSize) })
             data.consume(maxMsgSize)
           }
         }
