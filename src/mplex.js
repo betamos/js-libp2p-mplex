@@ -17,7 +17,7 @@ class Mplex {
    * @param {function(*)} options.onStreamEnd Called whenever a stream ends
    * @param {AbortSignal} options.signal An AbortController signal
    */
-  constructor (options) {
+  constructor(options) {
     options = options || {}
     options = typeof options === 'function' ? { onStream: options } : options
 
@@ -59,7 +59,7 @@ class Mplex {
    * Returns a Map of streams and their ids
    * @returns {Map<number,*>}
    */
-  get streams () {
+  get streams() {
     // Inbound and Outbound streams may have the same ids, so we need to make those unique
     const streams = []
     this._streams.initiators.forEach(stream => {
@@ -77,7 +77,7 @@ class Mplex {
    * @param {string} [name] If name is not a string it will be cast to one
    * @returns {Stream}
    */
-  newStream (name) {
+  newStream(name) {
     const id = this._streamId++
     name = name == null ? id.toString() : String(name)
     const registry = this._streams.initiators
@@ -92,7 +92,7 @@ class Mplex {
    * @param {string} options.name
    * @returns {*} A muxed stream
    */
-  _newReceiverStream ({ id, name }) {
+  _newReceiverStream({ id, name }) {
     const registry = this._streams.receivers
     return this._newStream({ id, name, type: 'receiver', registry })
   }
@@ -107,7 +107,7 @@ class Mplex {
    * @param {Map<number, *>} options.registry A map of streams to their ids
    * @returns {*} A muxed stream
    */
-  _newStream ({ id, name, type, registry }) {
+  _newStream({ id, name, type, registry }) {
     if (registry.has(id)) {
       throw new Error(`${type} stream ${id} already exists!`)
     }
@@ -134,7 +134,7 @@ class Mplex {
    * @private
    * @returns {*} Returns an iterable sink
    */
-  _createSink () {
+  _createSink() {
     return async source => {
       if (this._options.signal) {
         source = abortable(source, this._options.signal)
@@ -168,7 +168,7 @@ class Mplex {
    * @private
    * @returns {*} An iterable source
    */
-  _createSource () {
+  _createSource() {
     const onEnd = err => {
       const { initiators, receivers } = this._streams
       // Abort all the things!
@@ -191,7 +191,7 @@ class Mplex {
    * @param {Buffer|BufferList} options.data
    * @returns {void}
    */
-  _handleIncoming ({ id, type, data }) {
+  _handleIncoming({ id, type, data }) {
     if (log.enabled) {
       log('incoming message', { id, type: MessageTypeNames[type], data: data.slice() })
     }

@@ -18,7 +18,7 @@ const { InitiatorMessageTypes, ReceiverMessageTypes } = require('./message-types
  * @param {number} [options.maxMsgSize] Max size of an mplex message in bytes. Writes > size are automatically split. Defaults to 1MB
  * @returns {*} A muxed stream
  */
-module.exports = ({ id, name, send, onEnd = () => {}, type = 'initiator', maxMsgSize = MAX_MSG_SIZE }) => {
+module.exports = ({ id, name, send, onEnd = () => { }, type = 'initiator', maxMsgSize = MAX_MSG_SIZE }) => {
   const abortController = new AbortController()
   const resetController = new AbortController()
   const Types = type === 'initiator' ? InitiatorMessageTypes : ReceiverMessageTypes
